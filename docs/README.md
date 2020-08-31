@@ -50,7 +50,7 @@ public class UpdateHandler : IUpdateHandler
 
 ### License
 
-Telegram.Bots.Extensions.Polling is an extension for Telegram.Bots.
+Telegram.Bots.Extensions.Polling is an extension for Telegram.Bots.  
 Copyright © 2020  Aman Agnihotri (amanagnihotri@pm.me)
 
 This program is free software: you can redistribute it and/or modify
