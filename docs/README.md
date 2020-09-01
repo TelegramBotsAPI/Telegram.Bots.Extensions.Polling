@@ -1,5 +1,5 @@
 # Telegram.Bots.Extensions.Polling
-> Integrate Telegram.Bots with Long Polling
+> Integrate Long Polling with Telegram.Bots
 
 ### Getting Started
 
