@@ -9,7 +9,7 @@
     <Title>Telegram.Bots.Extensions.Polling</Title>
     <Description>Integrate Long Polling with Telegram.Bots</Description>
     <Copyright>Copyright © 2020 Aman Agnihotri</Copyright>
-    <PackageVersion>1.1.0</PackageVersion>
+    <PackageVersion>1.1.1</PackageVersion>
     <PackageProjectUrl>https://github.com/TelegramBotsAPI/Telegram.Bots.Extensions.Polling</PackageProjectUrl>
     <PackageLicenseExpression>LGPL-3.0-or-later</PackageLicenseExpression>
     <PackageIcon>icon.png</PackageIcon>
@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Telegram.Bots" Version="1.1.0" />
+    <PackageReference Include="Telegram.Bots" Version="1.1.1" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.9" />
     <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="3.3.1">
       <PrivateAssets>all</PrivateAssets>
