@@ -1,10 +1,12 @@
 # Telegram.Bots.Extensions.Polling
+
 > Integrate Long Polling with Telegram.Bots
 
 ### Getting Started
 
 #### Configuring Long Polling with Telegram.Bots
-```c#
+
+```cs
 using Microsoft.Extensions.DependencyInjection;
 using Telegram.Bots;
 
@@ -18,7 +20,7 @@ services.AddPolling<UpdateHandler>();
 
 #### Configuring an Update Handler
 
-```c#
+```cs
 using Telegram.Bots.Extensions.Polling;
 using Telegram.Bots.Requests;
 using Telegram.Bots.Types;
@@ -50,8 +52,8 @@ public class UpdateHandler : IUpdateHandler
 
 ### License
 
-Telegram.Bots.Extensions.Polling is an extension for Telegram.Bots.  
-Copyright © 2020  Aman Agnihotri (amanagnihotri@pm.me)
+Telegram.Bots.Extensions.Polling is an extension of Telegram.Bots.  
+Copyright © 2020-2021  Aman Agnihotri (amanagnihotri@pm.me)
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Lesser General Public License as published
