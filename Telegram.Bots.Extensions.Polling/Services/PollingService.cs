@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: LGPL-3.0-or-later
-// Copyright © 2020 Aman Agnihotri
+// Copyright © 2020-2021 Aman Agnihotri
 
 using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,61 +30,43 @@ namespace Telegram.Bots.Extensions.Polling.Services
         throw new ArgumentException("Invalid Bot Token");
 
       var offset = 0;
+
       while (!token.IsCancellationRequested)
       {
-        IServiceScope? scope = null;
-        try
-        {
-          scope = _provider.CreateScope();
+        var bot = GetBotClient();
+
+        var response = await bot.HandleAsync(new GetUpdates
           {
-            var bot = scope.ServiceProvider.GetRequiredService<IBotClient>();
+            Offset = offset,
+            Limit = _config.Limit,
+            Timeout = _config.Timeout,
+            AllowedUpdates = _config.AllowedUpdates
+          }, token)
+          .ConfigureAwait(false);
 
-            var response = await bot.HandleAsync(new GetUpdates
-              {
-                Offset = offset,
-                Limit = _config.Limit,
-                Timeout = _config.Timeout,
-                AllowedUpdates = _config.AllowedUpdates
-              }, token)
-              .ConfigureAwait(false);
+        if (!response.Ok || response.Result.Count <= 0) continue;
 
-            if (response.Ok && response.Result.Count > 0)
-            {
-              var updates = response.Result;
+        foreach (var update in response.Result)
+          await _handler.HandleAsync(bot, update, token);
 
-              var tasks = updates.Select(update => _handler.HandleAsync(bot, update, token));
-
-              await Task.WhenAll(tasks).ConfigureAwait(false);
-
-              offset = updates[^1].Id + 1;
-            }
-          }
-        }
-        finally
-        {
-          scope?.Dispose();
-        }
+        offset = response.Result[^1].Id + 1;
       }
     }
 
     private async Task<bool> IsValid(CancellationToken token)
     {
-      IServiceScope? scope = null;
-      try
-      {
-        scope = _provider.CreateScope();
-        {
-          var bot = scope.ServiceProvider.GetRequiredService<IBotClient>();
+      var bot = GetBotClient();
 
-          var response = await bot.HandleAsync(new GetMe(), token).ConfigureAwait(false);
+      var response = await bot.HandleAsync(new GetMe(), token).ConfigureAwait(false);
 
-          return response.Ok;
-        }
-      }
-      finally
-      {
-        scope?.Dispose();
-      }
+      return response.Ok;
+    }
+
+    private IBotClient GetBotClient()
+    {
+      using var scope = _provider.CreateScope();
+
+      return scope.ServiceProvider.GetRequiredService<IBotClient>();
     }
   }
 }
